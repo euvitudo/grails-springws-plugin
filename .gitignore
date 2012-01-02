@@ -1,1 +1,7 @@
 .svn
+.classpath
+.project
+.settings
+stacktrace.log
+target
+target-eclipse

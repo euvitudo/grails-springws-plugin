@@ -107,6 +107,10 @@ public class EndpointInterceptorAdapter implements SoapEndpointInterceptor {
         }
     }
 
+    public void afterCompletion(MessageContext messageContext, Object endpoint, Exception ex) {
+    }
+
+
 
     boolean accept(String endpointName) {
         if (endpoineRegex == null) {

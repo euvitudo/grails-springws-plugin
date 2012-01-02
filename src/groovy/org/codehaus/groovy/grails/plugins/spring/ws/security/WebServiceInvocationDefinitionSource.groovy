@@ -16,45 +16,45 @@
 
 package org.codehaus.groovy.grails.plugins.spring.ws.security
 
-import org.springframework.security.ConfigAttributeDefinition
-import org.springframework.security.intercept.ObjectDefinitionSource
-import org.springframework.security.util.UrlMatcher
-import org.springframework.security.util.UrlUtils
+import org.springframework.security.access.ConfigAttribute
+import org.springframework.security.access.SecurityMetadataSource
+import org.springframework.security.web.util.RequestMatcher
+import org.springframework.security.web.util.UrlUtils
 import org.apache.commons.logging.*
 import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest
 
 
 /**
- * A Spring Security ObjectDefinitionSource suitable for web services
+ * A Spring Security SecurityMetadataSource suitable for web services
  *
  * @author Tareq Abedrabbo (tareq.abedrabbo@gmail.com)
  */
-class WebServiceInvocationDefinitionSource implements ObjectDefinitionSource{
+class WebServiceInvocationDefinitionSource implements SecurityMetadataSource{
 
     def log = LogFactory.getLog(WebServiceInvocationDefinitionSource)
 
     private Map requestMap = new LinkedHashMap()
 
-    UrlMatcher urlMatcher
+    RequestMatcher urlMatcher
 
     public WebServiceInvocationDefinitionSource() {}
     
-    public WebServiceInvocationDefinitionSource(UrlMatcher urlMatcher, LinkedHashMap requestMap) {
+    public WebServiceInvocationDefinitionSource(RequestMatcher urlMatcher, LinkedHashMap requestMap) {
         this.urlMatcher = urlMatcher
         requestMap.each{
             addSecureUrl(it.key, it.value)
         }
     }
 
-    public void addSecureUrl(String pattern, ConfigAttributeDefinition attr) {
+    public void addSecureUrl(String pattern, List<ConfigAttribute> attr) {
         requestMap[urlMatcher.compile(pattern)] =  attr
     }
 
-    public Collection getConfigAttributeDefinitions() {
+    public Collection<ConfigAttribute> getAllConfigAttributes() {
         return Collections.unmodifiableCollection(requestMap.values())
     }
 
-    public ConfigAttributeDefinition getAttributes(Object object) throws IllegalArgumentException {
+    public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         if (!object || !supports(object.class)) {
             throw new IllegalArgumentException('Object must be a GrailsWebRequest');
         }
@@ -65,7 +65,7 @@ class WebServiceInvocationDefinitionSource implements ObjectDefinitionSource{
         return lookupAttributes(url)
     }
 
-    private ConfigAttributeDefinition lookupAttributes(String url) {
+    private List<ConfigAttribute> lookupAttributes(String url) {
 
         if (urlMatcher.requiresLowerCaseUrl()) {
             url = url.toLowerCase()

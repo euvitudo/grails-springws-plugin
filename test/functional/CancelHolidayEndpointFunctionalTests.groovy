@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import java.security.KeyStore
+import java.security.cert.Certificate
+import java.security.cert.CertificateFactory
+
 import org.codehaus.groovy.grails.plugins.spring.ws.EndpointFunctionalTestCase
 
 import org.springframework.ws.soap.client.SoapFaultClientException
@@ -64,6 +68,7 @@ class CancelHolidayEndpointFunctionalTests extends EndpointFunctionalTestCase {
                  }
               }
 
+    System.err.println(response)
       def status = response.status
       assert status == 'canceled'
     }

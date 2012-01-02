@@ -16,7 +16,9 @@
 
 package org.codehaus.groovy.grails.plugins.spring.ws
 
-import com.russmiles.groovy.webservices.client.WebServiceTemplate
+import org.springframework.ws.client.core.WebServiceTemplate
+import org.springframework.xml.transform.StringResult;
+import org.springframework.xml.transform.StringSource;
 
 import groovy.xml.MarkupBuilder
 
@@ -37,34 +39,44 @@ public class EndpointFunctionalTestCase extends GroovyTestCase {
     void setUp(){
         webServiceTemplate = new WebServiceTemplate()
     }
-	
-	def withEndpointRequest = { url, payload ->
-		def writer = new StringWriter()
-	    def request = new MarkupBuilder(writer)
-		payload.delegate = request
-		payload.call()
-		
-		def response = webServiceTemplate.sendToEndpoint(url, writer.toString())
-	    new XmlSlurper().parseText(response)
-	}
-	
-	// accepts a security config instance and applies the resulting security interceptor
-    def withSecuredEndpointRequest = { url, wsSecurityConfig, payload ->
-		def writer = new StringWriter()
-	    def request = new MarkupBuilder(writer)
-		payload.delegate = request
-		payload.call()
+    
+    def withEndpointRequest = {url, payload ->
+        def writer = new StringWriter()
+        def request = new MarkupBuilder(writer)
+        payload.delegate = request
+        payload.call()
+        
+        def response = EndpointFunctionalTestCase.sendToEndpoint(webServiceTemplate, url, writer.toString())
+        new XmlSlurper().parseText(response)
+    }
+
+    // accepts a security config instance and applies the resulting security interceptor
+    def withSecuredEndpointRequest = {url, wsSecurityConfig, payload ->
+        def writer = new StringWriter()
+        def request = new MarkupBuilder(writer)
+        payload.delegate = request
+        payload.call()
 
         // set the security Interceptor
         def securityInterceptor = WsSecurityConfigFactory.createInterceptor(securityConfigClass: wsSecurityConfig)
-        def swsTemplate =  webServiceTemplate.webServiceTemplate
+        //def swsTemplate =  webServiceTemplate.webServiceTemplate
+        def swsTemplate =  webServiceTemplate
         swsTemplate.interceptors = [securityInterceptor]
 
-		def response = webServiceTemplate.sendToEndpoint(url, writer.toString())
+        def response = EndpointFunctionalTestCase.sendToEndpoint(webServiceTemplate, url, writer.toString())
 
         // clean up
         swsTemplate.interceptors = [securityInterceptor]
 
-	    new XmlSlurper().parseText(response)
-	}
+        new XmlSlurper().parseText(response)
+    }
+
+    static def sendToEndpoint(wst, url, request) {
+    	StringResult result = new StringResult()
+	StringSource source = new StringSource(request as String)
+	wst.setDefaultUri(url)
+    	wst.sendSourceAndReceiveToResult(source, result)
+	return result.toString()
+    }
+
 }
