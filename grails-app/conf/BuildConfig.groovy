@@ -24,7 +24,7 @@ grails.project.dependency.resolution = {
 
         // uncomment these to enable remote dependency resolution from public Maven repositories
         //mavenCentral()
-        //mavenLocal()
+        mavenLocal()
         //mavenRepo "http://snapshots.repository.codehaus.org"
         //mavenRepo "http://repository.codehaus.org"
         //mavenRepo "http://download.java.net/maven/2/"
@@ -42,7 +42,7 @@ grails.project.dependency.resolution = {
         compile 'org.springframework.ws:spring-ws-support:2.0.3.RELEASE'
         compile 'org.springframework.ws:spring-xml:2.0.3.RELEASE'
         compile 'net.sourceforge.htmlunit:htmlunit:2.9'
-        compile 'com.sun.xml.wsit:wsit-rt:1.1'
+        //compile 'com.sun.xml.wsit:wsit-rt:1.1'
         compile ('com.sun.xml.stream:sjsxp:1.0.1') {
 		excludes "stax-api"
 	}

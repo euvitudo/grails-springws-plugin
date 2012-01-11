@@ -33,7 +33,7 @@ public class EndpointArtefactHandler extends ArtefactHandlerAdapter {
         super(TYPE, GrailsClass.class, DefaultGrailsEndpointClass.class, null);
     }
 
-    public boolean isArtefactClass(Class clazz) {
+    public boolean isArtefactClass(@SuppressWarnings("rawtypes") Class clazz) {
         // class shouldn't be null and should ends with Endpoint suffix
         return (clazz != null && clazz.getName().endsWith("Endpoint"));
     }

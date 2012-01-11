@@ -30,11 +30,11 @@ import java.util.List;
 public class DefaultGrailsInterceptorsClass extends AbstractInjectableGrailsClass implements GrailsInterceptorsClass {
     static String INTERCEPTORS = "Interceptors";
 
-    public DefaultGrailsInterceptorsClass(Class aClass) {
+    public DefaultGrailsInterceptorsClass(Class<?> aClass) {
         super(aClass, INTERCEPTORS);
     }
 
-    public List getConfigs(Object interceptors) {
+    public List<?> getConfigs(Object interceptors) {
         return InterceptorsConfigLoader.getConfigs(interceptors);
     }
 }

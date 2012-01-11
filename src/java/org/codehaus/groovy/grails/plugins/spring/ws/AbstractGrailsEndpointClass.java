@@ -34,13 +34,13 @@ public abstract class AbstractGrailsEndpointClass extends AbstractInjectableGrai
 
 	public static final String INVOKE = "invoke";
 
-	public AbstractGrailsEndpointClass(Class clazz, String artefactIdentifier) {
+	public AbstractGrailsEndpointClass(Class<?> clazz, String artefactIdentifier) {
 		super(clazz, artefactIdentifier);
 	}
 
 	public Source invoke(Source request) throws Exception {
         Writer responseWriter = createResponseWriter();
-        getMetaClass().invokeMethod( getReference().getWrappedInstance(), INVOKE, new Object[] {
+        getMetaClass().invokeMethod( getReferenceInstance(), INVOKE, new Object[] {
                 createRequest(request),
                 createResponse(responseWriter)
         } );

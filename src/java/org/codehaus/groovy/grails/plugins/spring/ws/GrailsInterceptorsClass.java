@@ -31,5 +31,5 @@ public interface GrailsInterceptorsClass extends GrailsClass {
     /**
      * @return A list of InterceptorConfig instances
      */
-    List getConfigs(Object interceptorInstance);
+    List<?> getConfigs(Object interceptorInstance);
 }

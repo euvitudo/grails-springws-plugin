@@ -37,6 +37,9 @@ springws.security.keyStore.myKeyStore.password='123456'
 //    password=''
 //}
 
+// We could also export a static WSDL
+springws.wsdl.StaticWsdl.file = '/WEB-INF/static-wsdl.wsdl'
+
 // log4j configuration
 log4j = {
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers

@@ -29,7 +29,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
@@ -52,10 +51,10 @@ public class ReloadablePayloadRootQNameEndpointMapping extends AbstractEndpointM
 
     private boolean registerBeanNames = false;
 
-    private final Map endpointMap = new HashMap();
+    private final Map<String, Object> endpointMap = new HashMap<String, Object>();
 
     // holds mappings set via setEndpointMap and setMappings
-    private Map temporaryEndpointMap = new HashMap();
+    private Map<String, Object> temporaryEndpointMap = new HashMap<String, Object>();
 
     /**
      * Set whether to lazily initialize endpoints. Only applicable to singleton endpoints, as prototypes are always
@@ -84,7 +83,7 @@ public class ReloadablePayloadRootQNameEndpointMapping extends AbstractEndpointM
      *
      * @throws IllegalArgumentException if the endpoint is invalid
      */
-    public final void setEndpointMap(Map endpointMap) {
+    public final void setEndpointMap(Map<String, Object> endpointMap) {
         temporaryEndpointMap.putAll(endpointMap);
     }
 
@@ -93,7 +92,9 @@ public class ReloadablePayloadRootQNameEndpointMapping extends AbstractEndpointM
      * be qualified names, for instance, or mime headers.
      */
     public void setMappings(Properties mappings) {
-        temporaryEndpointMap.putAll(mappings);
+    	for (Map.Entry<Object, Object> entry : mappings.entrySet()) {
+    		temporaryEndpointMap.put(String.class.cast(entry.getKey()), entry.getValue());
+    	}
     }
 
     protected final String getLookupKeyForMessage(MessageContext messageContext) throws Exception {
@@ -175,9 +176,9 @@ public class ReloadablePayloadRootQNameEndpointMapping extends AbstractEndpointM
      * @see #setRegisterBeanNames(boolean)
      */
     protected final void initApplicationContext() throws BeansException {
-        for (Iterator iter = temporaryEndpointMap.keySet().iterator(); iter.hasNext();) {
-            String key = (String) iter.next();
-            Object endpoint = temporaryEndpointMap.get(key);
+    	for (Map.Entry<String, Object> entry : temporaryEndpointMap.entrySet()) {
+            String key = entry.getKey();
+            Object endpoint = entry.getValue();
             if (!validateLookupKey(key)) {
                 throw new ApplicationContextException("Invalid key [" + key + "] for endpoint [" + endpoint + "]");
             }
@@ -203,11 +204,11 @@ public class ReloadablePayloadRootQNameEndpointMapping extends AbstractEndpointM
         }
     }
 
-    public void registerEndpoints(Map endpointsMap) throws BeansException {
+    public void registerEndpoints(Map<String, Object> endpointsMap) throws BeansException {
         endpointMap.clear();
-        for (Iterator iter = endpointsMap.keySet().iterator(); iter.hasNext();) {
-            String key = (String) iter.next();
-            Object endpoint = endpointsMap.get(key);
+        for (Map.Entry<String, Object> entry : endpointsMap.entrySet()) {
+        	String key = entry.getKey();
+            Object endpoint = entry.getValue();
             if (!validateLookupKey(key)) {
                 throw new ApplicationContextException("Invalid key [" + key + "] for endpoint [" + endpoint + "]");
             }

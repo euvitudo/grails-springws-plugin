@@ -30,7 +30,7 @@ import javax.xml.transform.TransformerConfigurationException;
 
 public class DefaultGrailsEndpointClass extends AbstractInjectableGrailsClass {
 
-	public DefaultGrailsEndpointClass(Class clazz) throws TransformerConfigurationException {
+	public DefaultGrailsEndpointClass(Class<?> clazz) throws TransformerConfigurationException {
 		super(clazz, "Endpoint");
 	}
 }

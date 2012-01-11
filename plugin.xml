@@ -1,40 +1,70 @@
-<plugin name='springws' version='0.5.0' grailsVersion='1.1 &gt; *'>
+<plugin name='springws' version='0.6.0' grailsVersion='1.1 &gt; *'>
   <author>Russ Miles</author>
   <authorEmail>russ@russmiles.com</authorEmail>
   <title>This plugin adds contract driven web service capabilities to a Grails application.</title>
   <description>\
-    	Spring Web Services plugin allows your Grails application to provide and consume 
-    	contract-driven web services. Feature highlights include: 
-    	* New in 0.5.0: Added support for Web Services Security (WS-Security)
-		* New in 0.2.3: Bug fix release (see http://jira.codehaus.org/browse/GRAILSPLUGINS-1225)
-		* New in 0.2.2: Added configuration option to override default Endpoint-name-based strategy for mapping incoming XML payloads to endpoints
-		* New in 0.2.1: Fixed concurrency bug in DefaultEndpointAdapter (see http://jira.codehaus.org/browse/GRAILSPLUGINS-1208)
-		* New in 0.2.1: Upgraded to Spring Web Services 1.5.7 (see http://jira.codehaus.org/browse/GRAILSPLUGINS-1208)
-		* Endpoint Interceptors so that you can now introduce
-		  common logic in an unintrusive fashion across a specified range of endpoints
-		* You can export the wsdl for a given endpoint by, in the simplest case,  
-		  setting the springws.wsdl.&lt;your endpoint name, without the Endpoint bit&gt;.export
-		* The EndpointFunctionalTestCase offers a more groovy withEndpointRequest closure 
-		  that significantly tightens up your endpoint functional test code.
-        * On the service provision side, a first-class endpoint	artefact is introduced including 
+        Spring Web Services plugin allows your Grails application to provide and consume 
+        contract-driven web services. Feature highlights include: 
+        * New in 0.5.0: Added support for Web Services Security (WS-Security)
+        * New in 0.2.3: Bug fix release (see http://jira.codehaus.org/browse/GRAILSPLUGINS-1225)
+        * New in 0.2.2: Added configuration option to override default Endpoint-name-based strategy for mapping incoming XML payloads to endpoints
+        * New in 0.2.1: Fixed concurrency bug in DefaultEndpointAdapter (see http://jira.codehaus.org/browse/GRAILSPLUGINS-1208)
+        * New in 0.2.1: Upgraded to Spring Web Services 1.5.7 (see http://jira.codehaus.org/browse/GRAILSPLUGINS-1208)
+        * Endpoint Interceptors so that you can now introduce
+          common logic in an unintrusive fashion across a specified range of endpoints
+        * You can export the wsdl for a given endpoint by, in the simplest case,  
+          setting the springws.wsdl.&lt;your endpoint name, without the Endpoint bit&gt;.export
+        * The EndpointFunctionalTestCase offers a more groovy withEndpointRequest closure 
+          that significantly tightens up your endpoint functional test code.
+        * On the service provision side, a first-class endpoint    artefact is introduced including 
           functional tests for endpoints.
         * When consuming services, a WebServiceTemplate is provided, in much the same vein as 
           the Spring WebServiceTemplate, that integrates more naturally with the rest of your Groovy code.</description>
   <documentation>http://grails.org/SpringWs+Plugin</documentation>
+  <type>SpringwsGrailsPlugin</type>
   <resources>
-    <resource>Config</resource>
-    <resource>UrlMappings</resource>
     <resource>WsSecurityConfig</resource>
     <resource>spring.resources</resource>
     <resource>CancelHolidayEndpoint</resource>
     <resource>CustomRequestElementEndpoint</resource>
     <resource>EndpointInterceptors</resource>
     <resource>HolidayEndpoint</resource>
+    <resource>StaticWsdlEndpoint</resource>
     <resource>XMLDateCodec</resource>
     <resource>XMLDateTimeCodec</resource>
   </resources>
+  <repositories>
+    <repository name='grailsCentral' url='http://plugins.grails.org' />
+    <repository name='http://repo.grails.org/grails/plugins' url='http://repo.grails.org/grails/plugins/' />
+    <repository name='http://repo.grails.org/grails/core' url='http://repo.grails.org/grails/core/' />
+    <repository name='grailsCore' url='http://svn.codehaus.org/grails/trunk/grails-plugins' />
+    <repository name='mavenCentral' url='http://repo1.maven.org/maven2/' />
+    <repository name='http://www.mvnsearch.org/maven2/' url='http://www.mvnsearch.org/maven2/' />
+  </repositories>
   <dependencies>
-    <resolvers />
+    <compile>
+      <dependency group='org.springframework.security' name='spring-security-web' version='3.1.0.RELEASE' />
+      <dependency group='org.springframework.ws' name='spring-ws' version='2.0.3.RELEASE' />
+      <dependency group='com.sun.xml.stream' name='sjsxp' version='1.0.1' />
+      <dependency group='org.springframework.security' name='spring-security-core' version='3.1.0.RELEASE' />
+      <dependency group='org.springframework.ws' name='spring-xml' version='2.0.3.RELEASE' />
+      <dependency group='org.apache.ws.commons.schema' name='XmlSchema' version='1.4.5' />
+      <dependency group='net.sourceforge.htmlunit' name='htmlunit' version='2.9' />
+      <dependency group='org.springframework.ws' name='spring-ws-support' version='2.0.3.RELEASE' />
+      <dependency group='org.springframework.ws' name='spring-ws-core' version='2.0.3.RELEASE' />
+      <dependency group='org.springframework.ws' name='spring-ws-security' version='2.0.3.RELEASE' />
+      <dependency group='commons-httpclient' name='commons-httpclient' version='3.0.1' />
+      <dependency group='org.springframework.security' name='spring-security-aspects' version='3.1.0.RELEASE' />
+    </compile>
   </dependencies>
+  <plugins>
+    <compile>
+      <plugin group='org.grails.plugins' name='hibernate' version='2.0.0' />
+    </compile>
+    <build>
+      <plugin group='org.grails.plugins' name='tomcat' version='2.0.0' />
+    </build>
+  </plugins>
+  <runtimePluginRequirements />
   <behavior />
 </plugin>

@@ -13,21 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package org.codehaus.groovy.grails.plugins.spring.ws.security;
-
-import org.codehaus.groovy.grails.commons.AbstractInjectableGrailsClass;
-
+ 
 /**
- *
- * @author Tareq Abedrabbo (tareq.abedrabbo@gmail.com)
+ * An endpoint for testing the export of a static WSDL
+ * @author Brian Sanders (brian_sanders@aon.com)
  */
-public class DefaultGrailsWsSecurityConfigClass extends AbstractInjectableGrailsClass implements GrailsWsSecurityConfigClass  {
+class StaticWsdlEndpoint {
+	
+	def static namespace = "http://example.com/stockquote.wsdl"
 
-    public static final String WS_SECURITY_CONFIG = "WsSecurityConfig";
-
-    public DefaultGrailsWsSecurityConfigClass(Class<?> clazz){
-        super(clazz, WS_SECURITY_CONFIG);
+	def invoke = { request, response ->
     }
-
 }
