@@ -1,4 +1,4 @@
-<plugin name='springws' version='0.6.0' grailsVersion='1.1 &gt; *'>
+<plugin name='springws' version='0.6.1' grailsVersion='1.1 &gt; *'>
   <author>Russ Miles</author>
   <authorEmail>russ@russmiles.com</authorEmail>
   <title>This plugin adds contract driven web service capabilities to a Grails application.</title>
@@ -43,18 +43,18 @@
   </repositories>
   <dependencies>
     <compile>
-      <dependency group='org.springframework.security' name='spring-security-web' version='3.1.0.RELEASE' />
-      <dependency group='org.springframework.ws' name='spring-ws' version='2.0.3.RELEASE' />
-      <dependency group='com.sun.xml.stream' name='sjsxp' version='1.0.1' />
-      <dependency group='org.springframework.security' name='spring-security-core' version='3.1.0.RELEASE' />
-      <dependency group='org.springframework.ws' name='spring-xml' version='2.0.3.RELEASE' />
-      <dependency group='org.apache.ws.commons.schema' name='XmlSchema' version='1.4.5' />
       <dependency group='net.sourceforge.htmlunit' name='htmlunit' version='2.9' />
       <dependency group='org.springframework.ws' name='spring-ws-support' version='2.0.3.RELEASE' />
-      <dependency group='org.springframework.ws' name='spring-ws-core' version='2.0.3.RELEASE' />
+      <dependency group='org.springframework.ws' name='spring-ws' version='2.0.3.RELEASE' />
+      <dependency group='org.springframework.security' name='spring-security-core' version='3.1.0.RELEASE' />
       <dependency group='org.springframework.ws' name='spring-ws-security' version='2.0.3.RELEASE' />
-      <dependency group='commons-httpclient' name='commons-httpclient' version='3.0.1' />
+      <dependency group='org.springframework.security' name='spring-security-web' version='3.1.0.RELEASE' />
+      <dependency group='org.springframework.ws' name='spring-ws-core' version='2.0.3.RELEASE' />
       <dependency group='org.springframework.security' name='spring-security-aspects' version='3.1.0.RELEASE' />
+      <dependency group='com.sun.xml.stream' name='sjsxp' version='1.0.1' />
+      <dependency group='commons-httpclient' name='commons-httpclient' version='3.0.1' />
+      <dependency group='org.apache.ws.commons.schema' name='XmlSchema' version='1.4.5' />
+      <dependency group='org.springframework.ws' name='spring-xml' version='2.0.3.RELEASE' />
     </compile>
   </dependencies>
   <plugins>

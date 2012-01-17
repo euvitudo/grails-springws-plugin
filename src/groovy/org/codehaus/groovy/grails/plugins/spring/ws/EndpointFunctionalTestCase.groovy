@@ -46,8 +46,7 @@ public class EndpointFunctionalTestCase extends GroovyTestCase {
         payload.delegate = request
         payload.call()
         
-        def response = EndpointFunctionalTestCase.sendToEndpoint(webServiceTemplate, url, writer.toString())
-        new XmlSlurper().parseText(response)
+        return EndpointFunctionalTestCase.sendToEndpoint(webServiceTemplate, url, writer.toString())
     }
 
     // accepts a security config instance and applies the resulting security interceptor
@@ -68,7 +67,7 @@ public class EndpointFunctionalTestCase extends GroovyTestCase {
         // clean up
         swsTemplate.interceptors = [securityInterceptor]
 
-        new XmlSlurper().parseText(response)
+        return response
     }
 
     static def sendToEndpoint(wst, url, request) {

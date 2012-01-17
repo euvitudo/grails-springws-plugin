@@ -25,7 +25,7 @@ import org.springframework.xml.transform.StringResult
 
 /**
  * Default endpoint adapter that transforms the request into an 
- * {@link XmlSlurper} and the response into a {@link MarkupBuilder}
+ * xml String.
  *
  * @author Russ Miles (russ@russmiles.com)
  * @author Ivo Houbrechts (ivo@houbrechts-it.be)
@@ -43,7 +43,7 @@ public class DefaultEndpointAdapter extends AbstractEndpointAdapter {
 		def transformer = transformerFactory.newTransformer()
         StringResult result = new StringResult()
         transformer.transform(request, result)
-        return new XmlSlurper().parseText(result.toString())
+        return result.toString()
     }
 
     protected Writer createResponseWriter() {

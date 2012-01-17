@@ -33,7 +33,7 @@ class HolidayEndpointFunctionalTests extends EndpointFunctionalTestCase {
 	
 	void testSOAPDocumentService() {
 		
-		def response = withEndpointRequest(serviceURL) {
+		def response = new XmlSlurper().parseText withEndpointRequest(serviceURL) {
 		 		HolidayRequest(xmlns: namespace) {
 				     Holiday {
 				       StartDate("2006-07-03")
@@ -61,7 +61,7 @@ class HolidayEndpointFunctionalTests extends EndpointFunctionalTestCase {
         def threads = []
         (1..10).each {
             threads.add(Thread.start {
-                def response = withEndpointRequest(serviceURL) {
+                def response = new XmlSlurper().parseText withEndpointRequest(serviceURL) {
                     HolidayRequest(xmlns: namespace) {
                         Holiday {
                             StartDate("2006-07-03")
@@ -96,7 +96,7 @@ class HolidayEndpointFunctionalTests extends EndpointFunctionalTestCase {
 	 */
 	void testSOAPDocumentServiceValidationInterceptor() {
 	  try {
-     	 def response = withEndpointRequest(serviceURL) {
+     	 def response = new XmlSlurper().parseText withEndpointRequest(serviceURL) {
 		 		HolidayRequest(xmlns: namespace) {
 				     MyHoliday {
 				       StartDate("2006-07-03")
@@ -125,7 +125,7 @@ class HolidayEndpointFunctionalTests extends EndpointFunctionalTestCase {
 	 */
 	void testSOAPDocumentServiceCustomPayloadElement() {
 		
-		def response = withEndpointRequest(serviceURL) {
+		def response = new XmlSlurper().parseText withEndpointRequest(serviceURL) {
 		 		Vacation(xmlns: namespace) {
 				     Holiday {
 				       StartDate("2006-07-03")

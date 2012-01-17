@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 /**
  * A simple endpoint that overrides the default Endpoint name based
  * naming strategy for incoming documents
@@ -21,10 +21,10 @@
  * @author Russ Miles (russ@russmiles.com)
  */
 class CustomRequestElementEndpoint {
-	
-	def static namespace = "http://mycompany.com/hr/schemas" 
-	
-	// Rather than using the default strategy, which 
+
+	def static namespace = "http://mycompany.com/hr/schemas"
+
+	// Rather than using the default strategy, which
 	// would map incoming documents with a root payload of
 	// 'CustomRequestElement' elements according to the endpoint name,
 	// we explicitly specify that we're interested in the payload being
@@ -33,18 +33,19 @@ class CustomRequestElementEndpoint {
 
 	def invoke = { request, response ->
 
-	  // Using the incoming document
-	  println "Vacation Request Received!"
-      println "Start Date: ${request.Holiday.StartDate}"
-      println "End Date: ${request.Holiday.EndDate}"
+		def xmlRequest = new XmlSlurper().parseText(request)
+		// Using the incoming document
+		println "Vacation Request Received!"
+		println "Start Date: ${xmlRequest.Holiday.StartDate}"
+		println "End Date: ${xmlRequest.Holiday.EndDate}"
 
-      // Typically you'd invoke some internal business services here
+		// Typically you'd invoke some internal business services here
 
-      // Preparing the response document
-	  response.VacationResponse(xmlns: namespace) {
-         status('complete') {
-         }
-      }
-      
-    }
+		// Preparing the response document
+		response.VacationResponse(xmlns: namespace) {
+			status('complete') {
+			}
+		}
+
+	}
 }

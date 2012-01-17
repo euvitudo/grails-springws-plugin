@@ -13,30 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 /**
  * A simple sample endpoint for testing purposes
  *
  * @author Russ Miles (russ@russmiles.com)
  */
 class HolidayEndpoint {
-	
-	def static namespace = "http://mycompany.com/hr/schemas" 
+
+	def static namespace = "http://mycompany.com/hr/schemas"
 
 	def invoke = { request, response ->
 
-	  // Using the incoming document
-	  println "Holiday Request Received!"
-      println "Start Date: ${request.Holiday.StartDate}"
-      println "End Date: ${request.Holiday.EndDate}"
+		def xmlRequest = new XmlSlurper().parseText(request) 
+		// Using the incoming document
+		println "Holiday Request Received!"
+		println "Start Date: ${xmlRequest.Holiday.StartDate}"
+		println "End Date: ${xmlRequest.Holiday.EndDate}"
 
-      // Typically you'd invoke some internal business services here
+		// Typically you'd invoke some internal business services here
 
-      // Preparing the response document
-	  response.HolidayResponse(xmlns: namespace) {
-         status('complete') {
-         }
-      }
-      
-    }
+		// Preparing the response document
+		response.HolidayResponse(xmlns: namespace) {
+			status('complete') {
+			}
+		}
+
+	}
 }

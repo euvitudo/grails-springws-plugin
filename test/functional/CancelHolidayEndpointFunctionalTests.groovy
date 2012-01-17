@@ -54,7 +54,7 @@ class CancelHolidayEndpointFunctionalTests extends EndpointFunctionalTestCase {
 
       def security = new ClientWsSecurityConfig(keyStore: keyStore)
 
-      def response = withSecuredEndpointRequest(serviceURL, security) {
+      def response = new XmlSlurper().parseText withSecuredEndpointRequest(serviceURL, security) {
                CancelHolidayRequest(xmlns: namespace) {
                    Holiday {
                      StartDate("2006-07-03")
