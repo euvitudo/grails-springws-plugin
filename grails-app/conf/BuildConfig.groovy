@@ -8,44 +8,32 @@ grails.project.source.level = 1.6
 
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
-    inherits("global") {
-        // uncomment to disable ehcache
-        // excludes 'ehcache'
-    }
-    log "error" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
-    checksums true // Whether to verify checksums on resolve
+    inherits "global"
+    log "warn"
+    checksums true
 
     repositories {
-        inherits true // Whether to inherit repository definitions from plugins
         grailsPlugins()
         grailsHome()
         grailsCentral()
-        mavenCentral()
 
-        // uncomment these to enable remote dependency resolution from public Maven repositories
-        //mavenCentral()
+        mavenCentral()
         mavenLocal()
-        //mavenRepo "http://snapshots.repository.codehaus.org"
-        //mavenRepo "http://repository.codehaus.org"
-        //mavenRepo "http://download.java.net/maven/2/"
-        mavenRepo "http://www.mvnsearch.org/maven2/"
     }
     dependencies {
         compile 'commons-httpclient:commons-httpclient:3.0.1'
-	compile 'org.apache.ws.commons.schema:XmlSchema:1.4.5'
-        compile 'org.springframework.security:spring-security-aspects:3.1.0.RELEASE'
-        compile 'org.springframework.security:spring-security-core:3.1.0.RELEASE'
-        compile 'org.springframework.security:spring-security-web:3.1.0.RELEASE'
-        compile 'org.springframework.ws:spring-ws:2.0.3.RELEASE'
-        compile 'org.springframework.ws:spring-ws-core:2.0.3.RELEASE'
-        compile 'org.springframework.ws:spring-ws-security:2.0.3.RELEASE'
-        compile 'org.springframework.ws:spring-ws-support:2.0.3.RELEASE'
-        compile 'org.springframework.ws:spring-xml:2.0.3.RELEASE'
+        compile 'org.apache.ws.xmlschema:xmlschema-core:2.0.3'
+        compile 'org.springframework.security:spring-security-aspects:3.1.3.RELEASE'
+        compile 'org.springframework.security:spring-security-core:3.1.3.RELEASE'
+        compile 'org.springframework.security:spring-security-web:3.1.3.RELEASE'
+        compile 'org.springframework.ws:spring-ws:2.1.3.RELEASE'
+        compile 'org.springframework.ws:spring-ws-core:2.1.3.RELEASE'
+        compile('org.springframework.ws:spring-ws-security:2.1.3.RELEASE') { excludes "wsit-rt", "xws-security" }
+        compile 'org.springframework.ws:spring-ws-support:2.1.3.RELEASE'
+        compile 'org.springframework.ws:spring-xml:2.1.3.RELEASE'
         compile 'net.sourceforge.htmlunit:htmlunit:2.9'
         //compile 'com.sun.xml.wsit:wsit-rt:1.1'
-        compile ('com.sun.xml.stream:sjsxp:1.0.1') {
-		excludes "stax-api"
-	}
+        compile ('com.sun.xml.stream:sjsxp:1.0.1') { excludes "stax-api" }
 
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
 
@@ -55,10 +43,11 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        compile ":hibernate:$grailsVersion"
+        compile ":functional-test:2.0.M2"
+        compile ":hibernate:latest.release"
         //compile ":jquery:1.7"
         //compile ":resources:1.1.3"
 
-        build ":tomcat:$grailsVersion"
+        build ":tomcat:7.0.41"
     }
 }

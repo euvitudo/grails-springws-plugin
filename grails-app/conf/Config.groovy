@@ -43,20 +43,44 @@ springws.wsdl.StaticWsdl.file = '/WEB-INF/static-wsdl.wsdl'
 // log4j configuration
 log4j = {
     error  'org.codehaus.groovy.grails.web.servlet',  //  controllers
-	       'org.codehaus.groovy.grails.web.pages', //  GSP
-	       'org.codehaus.groovy.grails.web.sitemesh', //  layouts
-	       'org.codehaus.groovy.grails."web.mapping.filter', // URL mapping
-	       'org.codehaus.groovy.grails."web.mapping', // URL mapping
-	       'org.codehaus.groovy.grails.commons', // core / classloading
-	       'org.codehaus.groovy.grails.plugins', // plugins
-	       'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
-	       'org.springframework',
-	       'org.hibernate'
+            'org.codehaus.groovy.grails.web.pages', //  GSP
+            'org.codehaus.groovy.grails.web.sitemesh', //  layouts
+            'org.codehaus.groovy.grails."web.mapping.filter', // URL mapping
+            'org.codehaus.groovy.grails."web.mapping', // URL mapping
+            'org.codehaus.groovy.grails.commons', // core / classloading
+            'org.codehaus.groovy.grails.plugins', // plugins
+            'org.codehaus.groovy.grails.orm.hibernate', // hibernate integration
+            'org.springframework',
+            'org.hibernate'
 
     debug 'SpringwsGrailsPlugin'
-	trace 'org.springframework.ws.client.MessageTracing'
+    trace 'org.springframework.ws.client.MessageTracing'
 }
 
 grails.views.default.codec="none" // none, html, base64
 grails.views.gsp.encoding="UTF-8"
 
+
+// Uncomment and edit the following lines to start using Grails encoding & escaping improvements
+
+/* remove this line 
+// GSP settings
+grails {
+    views {
+        gsp {
+            encoding = 'UTF-8'
+            htmlcodec = 'xml' // use xml escaping instead of HTML4 escaping
+            codecs {
+                expression = 'html' // escapes values inside null
+                scriptlet = 'none' // escapes output from scriptlets in GSPs
+                taglib = 'none' // escapes output from taglibs
+                staticparts = 'none' // escapes output from static template parts
+            }
+        }
+        // escapes all not-encoded output at final stage of outputting
+        filteringCodecForContentType {
+            //'text/html' = 'html'
+        }
+    }
+}
+remove this line */
