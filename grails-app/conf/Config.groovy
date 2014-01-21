@@ -1,6 +1,8 @@
 // An example of exporting the WSDL, in the simplest case, for the Holiday Endpoint
 springws.wsdl.Holiday.export
 
+grails.project.appName = "springws"
+
 // A more complex wsdl export could take the form of:
 //springws {
 //    wsdl {

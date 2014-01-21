@@ -31,26 +31,24 @@ import org.codehaus.groovy.grails.plugins.spring.ws.security.WsSecurityConfigFac
  * @author Tareq Abedrabbo (tareq.abedrabbo@gmail.com)
  *
  */
-public class EndpointFunctionalTestCase extends GroovyTestCase {
+public class EndpointFunctionalTestSupport {
 
-    def webServiceTemplate
     def consoleOutput
 
-    void setUp(){
-        webServiceTemplate = new WebServiceTemplate()
-    }
-    
+
     def withEndpointRequest = {url, payload ->
+        def webServiceTemplate = new WebServiceTemplate()
         def writer = new StringWriter()
         def request = new MarkupBuilder(writer)
         payload.delegate = request
         payload.call()
-        
-        return EndpointFunctionalTestCase.sendToEndpoint(webServiceTemplate, url, writer.toString())
+
+        return EndpointFunctionalTestSupport.sendToEndpoint(webServiceTemplate, url, writer.toString())
     }
 
     // accepts a security config instance and applies the resulting security interceptor
     def withSecuredEndpointRequest = {url, wsSecurityConfig, payload ->
+        def webServiceTemplate = new WebServiceTemplate()
         def writer = new StringWriter()
         def request = new MarkupBuilder(writer)
         payload.delegate = request
@@ -62,7 +60,7 @@ public class EndpointFunctionalTestCase extends GroovyTestCase {
         def swsTemplate =  webServiceTemplate
         swsTemplate.interceptors = [securityInterceptor]
 
-        def response = EndpointFunctionalTestCase.sendToEndpoint(webServiceTemplate, url, writer.toString())
+        def response = EndpointFunctionalTestSupport.sendToEndpoint(webServiceTemplate, url, writer.toString())
 
         // clean up
         swsTemplate.interceptors = [securityInterceptor]
@@ -71,11 +69,11 @@ public class EndpointFunctionalTestCase extends GroovyTestCase {
     }
 
     static def sendToEndpoint(wst, url, request) {
-    	StringResult result = new StringResult()
-	StringSource source = new StringSource(request as String)
-	wst.setDefaultUri(url)
-    	wst.sendSourceAndReceiveToResult(source, result)
-	return result.toString()
+        StringResult result = new StringResult()
+        StringSource source = new StringSource(request as String)
+        wst.setDefaultUri(url)
+        wst.sendSourceAndReceiveToResult(source, result)
+        return result.toString()
     }
 
 }

@@ -18,11 +18,12 @@ import java.security.KeyStore
 import java.security.cert.Certificate
 import java.security.cert.CertificateFactory
 
-import org.codehaus.groovy.grails.plugins.spring.ws.EndpointFunctionalTestCase
-
+import org.codehaus.groovy.grails.plugins.spring.ws.EndpointFunctionalTestSupport
 import org.springframework.ws.soap.client.SoapFaultClientException
 import org.springframework.core.io.DefaultResourceLoader
 import org.springframework.ws.soap.security.wss4j.support.CryptoFactoryBean
+
+import spock.lang.Specification;
 
 /**
  * An example of testing a secured endpoint
@@ -31,8 +32,9 @@ import org.springframework.ws.soap.security.wss4j.support.CryptoFactoryBean
  * @author Tareq Abedrabbo (tareq.abedrabbo@gmail.com)
  *
  */
-class CancelHolidayEndpointFunctionalTests extends EndpointFunctionalTestCase {
+class CancelHolidayEndpointFunctionalSpec extends Specification {
 
+    def EndpointFunctionalTestSupport support
     def serviceURL = "http://localhost:8080/springws/services"
 
     def namespace = "http://mycompany.com/hr/schemas"
@@ -40,9 +42,8 @@ class CancelHolidayEndpointFunctionalTests extends EndpointFunctionalTestCase {
     def resourceLoader = new DefaultResourceLoader()
     def keyStore
 
-    void setUp(){
-        super.setUp()
-        webServiceTemplate.setDefaultUri(serviceURL)
+    def setup() {
+        support = new EndpointFunctionalTestSupport()
         def factory = new CryptoFactoryBean()
         factory.keyStoreLocation = resourceLoader.getResource('file:grails-app/keys/mykeystore.jks')
         factory.keyStorePassword = '123456'
@@ -50,11 +51,12 @@ class CancelHolidayEndpointFunctionalTests extends EndpointFunctionalTestCase {
         keyStore = factory.getObject()
     }
 
-    void testSOAPDocumentService() {
-
+    def "test SOAP Document service with a secured endpoint request"() {
+        given:
         def security = new ClientWsSecurityConfig(keyStore: keyStore)
 
-        def response = new XmlSlurper().parseText withSecuredEndpointRequest(serviceURL, security) {
+        when:
+        def response = new XmlSlurper().parseText support.withSecuredEndpointRequest(serviceURL, security) {
             CancelHolidayRequest(xmlns: namespace) {
                 Holiday {
                     StartDate("2006-07-03")
@@ -68,9 +70,10 @@ class CancelHolidayEndpointFunctionalTests extends EndpointFunctionalTestCase {
             }
         }
 
+        then:
         System.err.println("Response: " + response)
         def status = response.status
-        assert status == 'canceled'
+        status.text() == 'canceled'
     }
 }
 
